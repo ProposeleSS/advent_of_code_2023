@@ -16,7 +16,7 @@ def get_numbers(input_matrix):
                 # get whole int not only first digit:
                 idx = symbol
                 idx_end = idx
-                while idx_end +1 < max_x and line[idx_end] in digits:
+                while idx_end < max_x and line[idx_end] in digits:
                     idx_end += 1
                 number = int(''.join(line[idx:idx_end]))
                 y_idx = input_matrix.index(line)
