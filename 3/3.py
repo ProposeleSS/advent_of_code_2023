@@ -24,7 +24,8 @@ def get_numbers(input_matrix):
                     'value': number,
                     'y': y_idx,
                     'x_start': idx,
-                    'x_end': idx_end -1
+                    'x_end': idx_end -1,
+                    'is_part_no': False
                 })
                 symbol = idx_end
             symbol += 1
@@ -68,6 +69,7 @@ def check_if_part_no(input_matrix, numbers):
                 part_numbers.append(number['value'])
                 number['is_part_no'] = True
                 number['symbol_xy'] = idx
+                number['symbol'] = char
                 continue
 
     return part_numbers
@@ -76,4 +78,27 @@ numbers = get_numbers(input_matrix)
 
 part_numbers = check_if_part_no(input_matrix, numbers)
 
+print('part 1:')
 print(sum(part_numbers))
+
+print('part 2:')
+gear_marks = []
+for num in numbers:
+    if num['is_part_no']:
+        if num['symbol'] == '*':
+            gear_marks.append({
+                'xy': num['symbol_xy'],
+                'part_no': num['value']
+            })
+
+result = 0
+for g in gear_marks:
+    idx = gear_marks.index(g)
+    ratio_1 = g['part_no']
+    # look for another gear mark with same coordinates:
+    if g['xy'] in [g['xy'] for g in gear_marks[idx +1:]]:
+        # get part no of second part with same gear mark coordinate
+        ratio_2 = [x['part_no'] for x in gear_marks[idx +1:] if x['xy'] == g['xy']][0]
+        result += ratio_1 * ratio_2
+
+print(result)
