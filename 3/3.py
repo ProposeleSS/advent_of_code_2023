@@ -2,7 +2,7 @@ from pathlib import Path
 from string import digits
 import pdb
 
-input = Path('3/input').open().read()
+input = Path('3/input.txt').open().read()
 input_matrix = [list(x) for x in input.split('\n')]
 
 max_y = max_x = len(input_matrix)
@@ -16,10 +16,8 @@ def get_numbers(input_matrix):
                 # get whole int not only first digit:
                 idx = symbol
                 idx_end = idx
-                while line[idx_end] in digits and idx_end +1 < max_x:
+                while idx_end +1 < max_x and line[idx_end] in digits:
                     idx_end += 1
-
-                print(line[idx:])
                 number = int(''.join(line[idx:idx_end]))
                 y_idx = input_matrix.index(line)
                 numbers.append({
@@ -32,6 +30,7 @@ def get_numbers(input_matrix):
             symbol += 1
 
     return numbers
+
 
 def check_if_part_no(input_matrix, numbers):
     part_numbers = []
@@ -74,8 +73,7 @@ def check_if_part_no(input_matrix, numbers):
     return part_numbers
 
 numbers = get_numbers(input_matrix)
+
 part_numbers = check_if_part_no(input_matrix, numbers)
-for n in numbers:
-    if n.get('is_part_no', False):
-        print(n)
+
 print(sum(part_numbers))
