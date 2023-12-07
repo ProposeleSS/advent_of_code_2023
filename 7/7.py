@@ -1,7 +1,7 @@
 from pathlib import Path
 import pdb
 
-input = Path('7/test').open().read()
+input = Path('7/input').open().read()
 
 cards = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2']
 match_ranks = [([5], 7),
@@ -25,8 +25,18 @@ for entry in input.split('\n'):
         matches_ranked = [x[1] for x in match_ranks if x[0] == matches][0]
     hands.append((hand, matches_ranked, bid))
 
-print(hands)
 
-# for hand in hands:
-#     for idx in range(len(hands) - 1):
-#         if hands[idx]['matching']
+n = len(hands)
+for i in range(n-1):
+    for j in range(0, n-i-1):
+        if hands[j][1] > hands[j + 1][1]:
+            hands[j], hands[j + 1] = hands[j + 1], hands[j]
+        elif hands[j][1] == hands[j + 1][1]:
+            for k in range(len(hands[j][0])):
+                if cards.index(hands[j][0][k]) < cards.index(hands[j+1][0][k]):
+                    hands[j], hands[j + 1] = hands[j + 1], hands[j]
+                    break
+                elif cards.index(hands[j][0][k]) > cards.index(hands[j+1][0][k]):
+                    break
+
+print(sum([int(x[2]) * (hands.index(x) + 1) for x in hands]))
