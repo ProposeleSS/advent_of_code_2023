@@ -28,4 +28,14 @@ for line in input.split('\n'):
     pyramid = get_diff_to_zero(seq)
     extrapolated_values.append(extrapolate_new_value(pyramid))
 
+print('part 1:')
+print(sum(extrapolated_values))
+
+extrapolated_values = []
+for line in input.split('\n'):
+    seq = [int(x) for x in line.split(' ')]
+    seq.reverse()
+    pyramid = get_diff_to_zero(seq)
+    extrapolated_values.append(extrapolate_new_value(pyramid))
+
 print(sum(extrapolated_values))
